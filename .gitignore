@@ -2,3 +2,5 @@
 MDK-ARM/Infantry_zzs/
 
 Control/ChassisControl\.h~RF12ec79e3\.TMP
+
+*.TMP

@@ -133,7 +133,7 @@ void Chassisfollow(void)
 	}
 	else if(ChassisMode == ROTATE)
 	{
-		Chassisdata.Rotate = -6000;
+		Chassisdata.Rotate = -5000;
 	}
 }
 /**
@@ -144,7 +144,8 @@ void Chassisfollow(void)
  */
 void MecanumCalculate(void)
 {
-	int Buffer[4],MaxSpeed,i;
+	float Buffer[4],MaxSpeed;
+	int i;
 	float Param;
     
     Buffer[0] = Chassisdata.Vx + Chassisdata.Vy + Chassisdata.Rotate;
@@ -154,9 +155,9 @@ void MecanumCalculate(void)
 	
 	for(i = 0, MaxSpeed = 0; i < 4; i++)
     {
-        if(abs(Buffer[i])> MaxSpeed)
+        if(fabs(Buffer[i]) > fabs(MaxSpeed))
         {
-            MaxSpeed =abs(Buffer[i]);
+            MaxSpeed =fabs(Buffer[i]);
         }
     }
 	if(MaxSpeed > MaxWheelSpeed)

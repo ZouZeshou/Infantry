@@ -39,13 +39,13 @@ void GimbalInit (void)
 	PitchInner.errILim = 3000;
 	PitchInner.OutMAX = 5000;
 
-	YawOutter.kp = 12;//15
+	YawOutter.kp = 10;//15
 	YawOutter.ki = 0;
 	YawOutter.kd = 0;	
 	YawOutter.errILim = 0;
 	YawOutter.OutMAX = 500;
 	
-	YawInner.kp = 150;//80
+	YawInner.kp = 120;//80
 	YawInner.ki = 0;
 	YawInner.kd = 0;
 	YawInner.errILim = 1000;
