@@ -7,7 +7,9 @@
 #include "ChassisControl.h"
 
 #define IMU_TARGET_TEMP 50
-
+#define GYROOFFLINE 1
+#define GYROABNORMAL 2
+#define GYRONORMAL 3
 
 void init_quaternion(void);
 void imu_AHRS_update(void);

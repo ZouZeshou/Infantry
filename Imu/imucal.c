@@ -326,3 +326,43 @@ void imu_cal_update(void){
 	imu_AHRS_update();
 	InfantryYawUpdate();
 }
+/**************zzs_add***************/
+/**
+ * @brief Judge the state of Gyroscope
+ * @param gy,gz,angle
+ * @return state of Gyroscope
+ * @attention  None
+ */
+int JudgeGyro(int16_t gy,int16_t gz,float angle)
+{
+	static int anglecounter = 0;
+	static int anglecounter2 = 0;
+	float angleold , anglechange;
+	anglechange = angle - angleold;
+	angleold = angle;
+	if(angle == 0)
+	{
+		if(anglecounter++ == 20)
+		{
+			anglecounter = 0;
+			return GYROOFFLINE;
+		}
+	}
+	else
+	{
+		anglecounter = 0;
+	}
+	if(abs(gz) <= 20 && fabs(anglechange) >= 0.001)
+	{
+		if(anglecounter2++ == 100)
+		{
+			anglecounter2 = 0;
+			return GYROABNORMAL;
+		}
+	}
+	else
+	{
+		anglecounter2 = 0;
+	}
+	return GYRONORMAL;
+}
