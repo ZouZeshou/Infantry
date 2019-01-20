@@ -6,7 +6,7 @@
 //6000 8000 Yaw
 #define NormalParameter 12.12f
 #define MaxWheelSpeed 8000
-#define MaxCurrentSum 10000 
+#define MaxCurrentSum 12000 
 #define CHASSISDEBUG 0
 #define ACCELARATION 1500
 #define PITCHMOTORSETLEFT

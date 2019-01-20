@@ -89,10 +89,8 @@ void GetGimbalTarget(void)
 		if(GimbalData.PitchTarget>GimbalData.PitchMax)
 			GimbalData.PitchTarget=GimbalData.PitchMax;
 		if(GimbalData.PitchTarget<GimbalData.PitchMin)
-			GimbalData.PitchTarget=GimbalData.PitchMin;
-		
+			GimbalData.PitchTarget=GimbalData.PitchMin;	
 		GimbalData.YawTarget += (float)(((-RC_Ctl.rc.ch2 + 1024)*0.0015f) + RC_Ctl.mouse.x * MOVE_MOUSEROTATE_CONST);
-
 	}
 }
 

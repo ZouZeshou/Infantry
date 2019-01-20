@@ -52,9 +52,7 @@ void DealKeyMousedata(void)
 		else
 		{
 			KeyMousedata.Vy = KeyMousedata.Ay * ramp_cal(&ramp_y);
-		
-		}
-		
+		}	
 	}
 	else
 	{
@@ -71,14 +69,10 @@ void DealKeyMousedata(void)
 		else
 		{
 			KeyMousedata.Vx = KeyMousedata.Ax * ramp_cal(&ramp_x);
-		
 		}
-	
 	}
 	else
 	{
 		ramp_init(&ramp_x);
 	}
-
-
 }

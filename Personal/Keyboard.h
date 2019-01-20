@@ -29,7 +29,7 @@
 #define SHIFT_X 5000
 #define SHIFT_Y 3000
 #define MOVE_X 6000
-#define MOVE_Y 8200
+#define MOVE_Y 8000
 
 #define MOVE_MOUSEROTATE_CONST -0.015f
 #define CLOUD_MOUSEPITCH_CONST 0.20f

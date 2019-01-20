@@ -188,7 +188,6 @@ void ChassisPid (void)
 {
 	
 	int i;
-	Chassisdata.CurrentSum = 0;
 	if(ChassisWheelDebug == 1)
 	{
 		for(i = 0;i < 4;i++)
