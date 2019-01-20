@@ -198,7 +198,6 @@ void Switchshoot (void)
 		Turn_off_Fric();
 		Friction_ok=0;
 	}
-
 }
 /**
  * @brief  turn on the friction 

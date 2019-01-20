@@ -279,10 +279,11 @@ void CAN1_RX0_IRQHandler(void)
 void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
-
+#ifdef DELETE_USART1_IRQ
   /* USER CODE END USART1_IRQn 0 */
-//  HAL_UART_IRQHandler(&huart1);
+  HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
+#endif
 	USART1_IDLE_IRQ();
   /* USER CODE END USART1_IRQn 1 */
 }
