@@ -17,11 +17,12 @@ void InfantryYawUpdate(void);
 void PID_Temp_Init(void);
 void Temp_keep(void);
 void imu_cal_update(void);
+int JudgeGyro(int16_t gy,int16_t gz,float angle);
 
 extern int imu_init_ok;
 extern float q0,q1,q2,q3;
 extern float imu_pitch,imu_roll;
-
+extern int Gyro1State;
 #endif
 
 

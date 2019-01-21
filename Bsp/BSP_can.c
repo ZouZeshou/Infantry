@@ -4,11 +4,12 @@
 #include "ChassisControl.h"
 #include "GimbalControl.h"
 #include "ShootControl.h"
-
+#include "imu.h"
 static wl4data w4d;
 static wl2data w2d;
 ToeGyro Gyroscope1;
 ToeGyro Gyroscope2;
+int Gyro1State;
 
 /**
  * @brief Enable Can1 and Can2
@@ -92,6 +93,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			w4d.c[2] = RxData2[6];
 			w4d.c[3] = RxData2[7];
 			Gyroscope1.angle = w4d.f;
+			Gyro1State = JudgeGyro(Gyroscope1.gy,Gyroscope1.gz,Gyroscope1.angle);
 			GimbalData.Pitchspeed = (int16_t)(-(Gyroscope1.gy )*0.06103515625f);//4000/65535
 			GimbalData.Yawspeed = (int16_t)(Gyroscope1.gz*0.06103515625f);
 		}
