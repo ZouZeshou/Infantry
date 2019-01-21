@@ -5,7 +5,7 @@
 
 
 #define LEFT_FRICTION       TIM1->CCR1
-#define RIGHT_FRICTION      TIM4->CCR1
+#define RIGHT_FRICTION      TIM1->CCR2
 typedef struct
 {
 	int PositionInit;

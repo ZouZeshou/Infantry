@@ -55,6 +55,12 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			GimbalData.YawBacknow = RxData1[0]<<8|RxData1[1];	
 		if(Can1Header.StdId==0x206)
 			GimbalData.PitchBacknow = RxData1[0]<<8|RxData1[1];	
+		if(Can1Header.StdId==0x207)
+		{
+			StirMotorData.BackPositionNew = RxData1[0]<<8|RxData1[1];
+			StirMotorData.BackSpeed = RxData1[2]<<8|RxData1[3];
+			DealStirMotorPosition ();
+		}
 		if(Can1Header.StdId==0x402)
 		{
 			w2d.c[0] = RxData1[0];
@@ -74,12 +80,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 	if(hcan->Instance == CAN2)
 	{
 		HAL_CAN_GetRxMessage(&hcan2, CAN_RX_FIFO0,&Can2Header,RxData2 );
-		if(Can2Header.StdId==0x207)
-		{
-			StirMotorData.BackPositionNew = RxData2[0]<<8|RxData2[1];
-			StirMotorData.BackSpeed = RxData2[2]<<8|RxData2[3];
-			DealStirMotorPosition ();
-		}
+
 		if(Can2Header.StdId==0x401)
 		{
 			w2d.c[0] = RxData2[0];
@@ -94,8 +95,6 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			w4d.c[3] = RxData2[7];
 			Gyroscope1.angle = w4d.f;
 			Gyro1State = JudgeGyro(Gyroscope1.gy,Gyroscope1.gz,Gyroscope1.angle);
-			GimbalData.Pitchspeed = (int16_t)(-(Gyroscope1.gy )*0.06103515625f);//4000/65535
-			GimbalData.Yawspeed = (int16_t)(Gyroscope1.gz*0.06103515625f);
 		}
 	}
 	

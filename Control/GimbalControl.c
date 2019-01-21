@@ -43,7 +43,7 @@ void GimbalInit (void)
 	YawOutter.ki = 0;
 	YawOutter.kd = 0;	
 	YawOutter.errILim = 0;
-	YawOutter.OutMAX = 500;
+	YawOutter.OutMAX = 300;
 	
 	YawInner.kp = 120;//80
 	YawInner.ki = 0;
@@ -112,10 +112,11 @@ void DealGimbalPosition (void)
 	GimbalData.YawBackold = GimbalData.YawBacknow;
 	GimbalData.Yawinit = 1;
 	
-	GimbalData.Yawposition = GimbalData.YawBacknow + GimbalData.Yawcirclecounter*8192;
+	GimbalData.Yawposition = GimbalData.YawBacknow + GimbalData.Yawcirclecounter*8191;
+	GimbalData.Yawspeed = (int16_t)((GimbalData.Yawposition - GimbalData.Yawpositionold) / 8191.0f * 2 * 3.1415926f / 0.005f);
 	GimbalData.Yawpositionold = GimbalData.Yawposition;
 	if(ChassisMode == ROTATE )
-	YawMidPosi = 4750 + GimbalData.Yawcirclecounter*8192;
+	YawMidPosi = 4750 + GimbalData.Yawcirclecounter*8191;
 	
 	if(GimbalData.Pitchinit)
 	{ 
@@ -128,6 +129,7 @@ void DealGimbalPosition (void)
 	GimbalData.Pitchinit=1;
 	
 	GimbalData.Pitchposition=GimbalData.PitchBacknow + GimbalData.Pitchcirclecounter*8192;
+	GimbalData.Pitchspeed = (int16_t)((GimbalData.Pitchposition - GimbalData.Pitchpositionold) / 8191.0f * 2 * 3.1415926f / 0.005f);
 	GimbalData.Pitchpositionold=GimbalData.Pitchposition;
 }
 /**
@@ -157,7 +159,7 @@ void PitchPID (float Target)
 	PID_AbsoluteMode(&PitchOutter);
 	PitchInner.errNow = PitchOutter.ctrOut -  GimbalData.Pitchspeed;//(1/65536*4000)
 	PID_AbsoluteMode(&PitchInner);
-	GimbalData.PitchCurrent = -PitchInner.ctrOut;
+	GimbalData.PitchCurrent = PitchInner.ctrOut;
 }
 
 /**

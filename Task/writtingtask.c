@@ -61,7 +61,7 @@ void StartTask02(void const * argument)
 	  DealGimbalPosition();
 	  PitchPID(GimbalData.PitchTarget);
 	  YawPID(GimbalData.YawTarget);	
-//		Plot_in_UpperMonitor();//Gimbal
+		Plot_in_UpperMonitor();//Gimbal
 	  
 		ChooseStirMotorMode();
 	  Switchshoot();
@@ -88,7 +88,7 @@ void StartTask03(void const * argument)
 	  
 	 //Current = xTaskGetTickCount();  
 //		Can1_SendMsg(0x200,Chassisdata.Current[0],Chassisdata.Current[1],Chassisdata.Current[2],Chassisdata.Current[3]);
-//		Can1_SendMsg(0x1FF,GimbalData.YawCurrent,GimbalData.PitchCurrent,0,0);
+		Can1_SendMsg(0x1FF,GimbalData.YawCurrent,GimbalData.PitchCurrent,StirMotorData.Current,0);
 //		Can2_SendMsg(0x1FF,0,0,StirMotorData.Current,0);
      osDelay(5);
   }

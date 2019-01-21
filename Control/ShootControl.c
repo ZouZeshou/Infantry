@@ -4,14 +4,14 @@
 #include "DBUS.h"
 #include "STMGood.h"
 
-#define STIRADDITION 29491.2 //8191*36/10
+#define STIRADDITION 32764 //8191*36/9
 int FrictionSpd = 1250;
 /***********StirMotorMode********************/
 #define DISCRETE 0// shot  bullet one by one
 #define CONTINUE 1//continuous shot
 int StirMotorMode;
 /********************************************/
-int16_t ShootFrequncy = 20;//1000/5/20
+int16_t ShootFrequncy = 13;//1000/5/15
 
 PID_AbsoluteType StirMotorOutterPID,StirMotorInnerPID;
 StirMotor StirMotorData;
@@ -48,7 +48,7 @@ void ShootInit (void)
 void PWMInit(void)
 {
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); // friction wheel
-  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
 }
 /**
  * @brief choose the mode of shoot bullets 
