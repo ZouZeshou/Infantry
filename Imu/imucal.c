@@ -284,6 +284,8 @@ void imu_AHRS_update(void)
   q1 = tempq1 * norm;
   q2 = tempq2 * norm;
   q3 = tempq3 * norm;
+	GimbalData.Yawspeed = gz;
+	GimbalData.Pitchspeed = gy;
 
 }
 

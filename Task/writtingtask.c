@@ -64,7 +64,7 @@ void StartTask02(void const * argument)
 		Plot_in_UpperMonitor();//Gimbal
 	  
 		ChooseStirMotorMode();
-	  Switchshoot();
+//	  Switchshoot();
 	  StirPID (StirMotorData.TargetPosition,StirMotorData.BackSpeed,StirMotorData.BackPositionNew);
 		//ShootControl
 	  
@@ -88,7 +88,7 @@ void StartTask03(void const * argument)
 	  
 	 //Current = xTaskGetTickCount();  
 //		Can1_SendMsg(0x200,Chassisdata.Current[0],Chassisdata.Current[1],Chassisdata.Current[2],Chassisdata.Current[3]);
-		Can1_SendMsg(0x1FF,GimbalData.YawCurrent,GimbalData.PitchCurrent,StirMotorData.Current,0);
+//		Can1_SendMsg(0x1FF,GimbalData.YawCurrent,GimbalData.PitchCurrent,StirMotorData.Current,0);
 //		Can2_SendMsg(0x1FF,0,0,StirMotorData.Current,0);
      osDelay(5);
   }
@@ -144,6 +144,7 @@ void PrintFunction(void)
 //			printf("Foinner err%f out%f\r\n",ChassisfollowInner.errNow,ChassisfollowInner.ctrOut);
 	
 /*************************************************** Gimbaldebug ***********************************************/
+	printf("yawspd %d pitspd %d angle %f\r\n",GimbalData.Yawspeed,GimbalData.Pitchspeed,GimbalData.ImuData);
 //	  printf("backpos Yaw %d Pitch %d\r\n",GimbalData.YawBacknow,GimbalData.PitchBacknow);
 //	  printf("backspeed  Yaw %d Pitch %d\r\n",GimbalData.Yawspeed,GimbalData.Pitchspeed);
 //	  printf("totalpos Yaw %d Pitch %d\r\n",GimbalData.Yawposition,GimbalData.Pitchposition);
@@ -153,9 +154,9 @@ void PrintFunction(void)
 //			printf("Yaw outter %f inner %f\r\n",YawOutter.ctrOut,YawInner.ctrOut);
 ////			printf("Yawcur %d\r\n",GimbalData.YawCurrent);
 //			printf("Pitch outter %f inner %f\r\n",PitchOutter.ctrOut,PitchInner.ctrOut);
-			printf("Gyro1 gy%d gz%d ang%f\r\n",Gyroscope1.gy,Gyroscope1.gz,Gyroscope1.angle);
-			printf("Gyro1State %d\r\n",Gyro1State);
-			printf("Gyro2 gy%d gz%d ang%f\r\n",Gyroscope2.gy,Gyroscope2.gz,Gyroscope2.angle);
+//			printf("Gyro1 gy%d gz%d ang%f\r\n",Gyroscope1.gy,Gyroscope1.gz,Gyroscope1.angle);
+//			printf("Gyro1State %d\r\n",Gyro1State);
+//			printf("Gyro2 gy%d gz%d ang%f\r\n",Gyroscope2.gy,Gyroscope2.gz,Gyroscope2.angle);
 //		 printf("PitSpd %d YawSpd %d\r\n",GimbalData.Pitchspeed,GimbalData.Yawspeed);
 ////  printf("FollowctrOut %f\r\n",ChassisfollowOutter.ctrOut);
 ////	  printf("GimbalImu %f\r\n",GimbalData.ImuData);

@@ -113,7 +113,7 @@ void DealGimbalPosition (void)
 	GimbalData.Yawinit = 1;
 	
 	GimbalData.Yawposition = GimbalData.YawBacknow + GimbalData.Yawcirclecounter*8191;
-	GimbalData.Yawspeed = (int16_t)((GimbalData.Yawposition - GimbalData.Yawpositionold) / 8191.0f * 2 * 3.1415926f / 0.005f);
+//	GimbalData.Yawspeed = (int16_t)((GimbalData.Yawposition - GimbalData.Yawpositionold) / 8191.0f * 2 * 3.1415926f / 0.005f);
 	GimbalData.Yawpositionold = GimbalData.Yawposition;
 	if(ChassisMode == ROTATE )
 	YawMidPosi = 4750 + GimbalData.Yawcirclecounter*8191;
@@ -129,7 +129,7 @@ void DealGimbalPosition (void)
 	GimbalData.Pitchinit=1;
 	
 	GimbalData.Pitchposition=GimbalData.PitchBacknow + GimbalData.Pitchcirclecounter*8192;
-	GimbalData.Pitchspeed = (int16_t)((GimbalData.Pitchposition - GimbalData.Pitchpositionold) / 8191.0f * 2 * 3.1415926f / 0.005f);
+//	GimbalData.Pitchspeed = (int16_t)((GimbalData.Pitchposition - GimbalData.Pitchpositionold) / 8191.0f * 2 * 3.1415926f / 0.005f);
 	GimbalData.Pitchpositionold=GimbalData.Pitchposition;
 }
 /**
