@@ -27,25 +27,25 @@ extern int DBUScounter;
  */
 void GimbalInit (void)
 {
-	PitchOutter.kp = 20;//30
+	PitchOutter.kp = 30;//30
 	PitchOutter.ki = 0;
 	PitchOutter.kd = 0;	
 	PitchOutter.errILim = 0;
-	PitchOutter.OutMAX = 250;
+	PitchOutter.OutMAX = 400;
 	
-	PitchInner.kp = 40;//20
-	PitchInner.ki = 0.5;
+	PitchInner.kp = 50;//20
+	PitchInner.ki = 0;
 	PitchInner.kd = 0;
 	PitchInner.errILim = 3000;
-	PitchInner.OutMAX = 5000;
+	PitchInner.OutMAX = 25000;
 
-	YawOutter.kp = 10;//15
+	YawOutter.kp = 12;//15
 	YawOutter.ki = 0;
 	YawOutter.kd = 0;	
 	YawOutter.errILim = 0;
-	YawOutter.OutMAX = 300;
+	YawOutter.OutMAX = 500;
 	
-	YawInner.kp = 120;//80
+	YawInner.kp = 60;//80
 	YawInner.ki = 0;
 	YawInner.kd = 0;
 	YawInner.errILim = 1000;
@@ -60,20 +60,17 @@ void GimbalInit (void)
  *///1800 2500 2210 
 void GimbalCalibration(void)
 {
-	if(GimbalData.PitchBacknow>4000)
-	{
-		GimbalData.PitchMax = 2500 + 8192;
-		GimbalData.PitchMid = 2210 + 8192;
-		GimbalData.PitchMin = 1800 + 8192;
-	}
-	else
-	{
-		GimbalData.PitchMax = 2500;
-		GimbalData.PitchMid = 2210;
-		GimbalData.PitchMin = 1800;
-	}
+
+		GimbalData.PitchMax = 7300;
+		GimbalData.PitchMid = 7045;
+		GimbalData.PitchMin = 5800;
+
+		GimbalData.YawMax = 6750;
+		GimbalData.YawMid = 5000;
+		GimbalData.YawMin = 4750;
+
 	GimbalData.PitchTarget = GimbalData.PitchMid;
-	GimbalData.YawTarget = YAW_MID_ANGLE;
+	GimbalData.YawTarget = GimbalData.YawMid;
 }
 /**
  * @brief get the tagetposition from remote and  keyboard,mouse
@@ -90,7 +87,11 @@ void GetGimbalTarget(void)
 			GimbalData.PitchTarget=GimbalData.PitchMax;
 		if(GimbalData.PitchTarget<GimbalData.PitchMin)
 			GimbalData.PitchTarget=GimbalData.PitchMin;	
-		GimbalData.YawTarget += (float)(((-RC_Ctl.rc.ch2 + 1024)*0.0015f) + RC_Ctl.mouse.x * MOVE_MOUSEROTATE_CONST);
+		GimbalData.YawTarget -= (float)(((-RC_Ctl.rc.ch2 + 1024)*0.0045f) + RC_Ctl.mouse.x * MOVE_MOUSEROTATE_CONST);
+		if(GimbalData.YawTarget>GimbalData.YawMax)
+			GimbalData.YawTarget=GimbalData.YawMax;
+		if(GimbalData.YawTarget<GimbalData.YawMin)
+			GimbalData.YawTarget=GimbalData.YawMin;	
 	}
 }
 
@@ -128,9 +129,9 @@ void DealGimbalPosition (void)
 	GimbalData.PitchBackold=GimbalData.PitchBacknow;
 	GimbalData.Pitchinit=1;
 	
-	GimbalData.Pitchposition=GimbalData.PitchBacknow + GimbalData.Pitchcirclecounter*8192;
+//	GimbalData.Pitchposition=GimbalData.PitchBacknow + GimbalData.Pitchcirclecounter*8192;
 //	GimbalData.Pitchspeed = (int16_t)((GimbalData.Pitchposition - GimbalData.Pitchpositionold) / 8191.0f * 2 * 3.1415926f / 0.005f);
-	GimbalData.Pitchpositionold=GimbalData.Pitchposition;
+//	GimbalData.Pitchpositionold=GimbalData.Pitchposition;
 }
 /**
  * @brief PID control of pitchmotor
@@ -155,7 +156,7 @@ void PitchPID (float Target)
 		PitchInner.OutMAX=V2;
 	}
 	
-	PitchOutter.errNow = (Target - GimbalData.Pitchposition)*0.0439453125f;//处理成角度值
+	PitchOutter.errNow = (Target - GimbalData.PitchBacknow)*0.0439453125f;//处理成角度值
 	PID_AbsoluteMode(&PitchOutter);
 	PitchInner.errNow = PitchOutter.ctrOut -  GimbalData.Pitchspeed;//(1/65536*4000)
 	PID_AbsoluteMode(&PitchInner);
@@ -184,9 +185,9 @@ void YawPID (float Target)
 		YawInner.errILim=1000;
 		YawInner.OutMAX=V2;
 	}
-	YawOutter.errNow = (Target - Gyroscope1.angle);
+	YawOutter.errNow = -(Target - GimbalData.YawBacknow)*0.0439453125f;
 	PID_AbsoluteMode(&YawOutter);
 	YawInner.errNow = YawOutter.ctrOut - GimbalData.Yawspeed;
 	PID_AbsoluteMode(&YawInner);
-	GimbalData.YawCurrent = (int16_t)(YawInner.ctrOut + StirMotorData.Current*0.08);
+	GimbalData.YawCurrent = (int16_t)(-YawInner.ctrOut);
 }

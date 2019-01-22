@@ -184,30 +184,6 @@ uint8_t MPU6500_Set_Gyro_Fsr(uint8_t fsr)
 
 //Get 6 axis data from MPU6500
 
-#ifdef IMU_FOLLOW_GYRO_CHOOSERM
-void IMU_Get_Data()
-{
-    uint8_t mpu_buff[6];
-    MPU6500_Read_Regs(MPU6500_GYRO_XOUT_H, mpu_buff, 6);//14
-    /*imu_data.ax = mpu_buff[0]<<8 |mpu_buff[1];
-    imu_data.ay = mpu_buff[2]<<8 |mpu_buff[3];
-    imu_data.az = mpu_buff[4]<<8 |mpu_buff[5];
-  
-    imu_data.temp = mpu_buff[6]<<8 |mpu_buff[7];*/
-    imu_data.gx = mpu_buff[0]<<8 |mpu_buff[1];
-    imu_data.gy = mpu_buff[2]<<8 |mpu_buff[3];
-    imu_data.gz = mpu_buff[4]<<8 |mpu_buff[5];
-	taskENTER_CRITICAL();
-#ifdef PITCHMOTORSETLEFT
-	CloudMotor.PitchSpeed =  -imu_data.gy * 0.06103515625F;// 1/(65536/4000) data->dps
-#else
-	CloudMotor.PitchSpeed =  imu_data.gy * 0.06103515625F;
-#endif
-	CloudMotor.YawSpeed   =  -imu_data.gz * 0.06103515625F;
-	taskEXIT_CRITICAL();
-}
-
-#else
 void IMU_Get_Data()
 {
     uint8_t mpu_buff[14];
@@ -228,19 +204,20 @@ void IMU_Get_Data()
 	/*imu_data_forcal.mx = mpu_buff[14]<<8 |mpu_buff[15];
 	imu_data_forcal.my = mpu_buff[16]<<8 |mpu_buff[17];
 	imu_data_forcal.mz = mpu_buff[18]<<8 |mpu_buff[19];*/
+	if(abs(imu_data_forcal.gx)<=5) 
+		imu_data_forcal.gx = 0;
+	if(abs(imu_data_forcal.gy)<=5) 
+		imu_data_forcal.gy = 0;
+	if(abs(imu_data_forcal.gz)<=5) 
+		imu_data_forcal.gz = 0;
 
 	taskENTER_CRITICAL();
-//#ifdef PITCHMOTORSETLEFT
+
 //	GimbalData.Pitchspeed =(int16_t) ( -imu_data.gy * 0.06103515625F); // y for infantry
-//#else
-//	GimbalData.Pitchspeed = (int16_t) (imu_data.gy * 0.06103515625F);  // y
-//#endif
-//	GimbalData.Yawspeed   = (int16_t) (-imu_data.gz * 0.06103515625F);
+	GimbalData.Pitchspeed = (int16_t) (-imu_data_forcal.gy * 0.06103515625f);  // y
+	GimbalData.Yawspeed   = (int16_t) (-imu_data_forcal.gz * 0.06103515625f);
 	taskEXIT_CRITICAL();
 }
-
-
-#endif
 
 
 //Initialize the MPU6500

@@ -11,9 +11,9 @@
 #define ACCELARATION 1500
 #define PITCHMOTORSETLEFT
 
-#define YAWMIN -45
+#define YAWMIN 0
 #define YAW_MID_ANGLE 0
-#define YAWMAX 45
+#define YAWMAX 90
 
 #define FOLLOW 1
 #define ROTATE 2

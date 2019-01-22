@@ -250,28 +250,28 @@ void imu_AHRS_update(void)
   bz = hz; */
 
   // estimated direction of gravity and flux (v and w)
-  vx = 2.0f*(q1q3 - q0q2);
-  vy = 2.0f*(q0q1 + q2q3);
-  vz = q0q0 - q1q1 - q2q2 + q3q3;
-  wx = 2.0f*bx*(0.5f - q2q2 - q3q3) + 2.0f*bz*(q1q3 - q0q2);
-  wy = 2.0f*bx*(q1q2 - q0q3) + 2.0f*bz*(q0q1 + q2q3);
-  wz = 2.0f*bx*(q0q2 + q1q3) + 2.0f*bz*(0.5f - q1q1 - q2q2);  
+//  vx = 2.0f*(q1q3 - q0q2);
+//  vy = 2.0f*(q0q1 + q2q3);
+//  vz = q0q0 - q1q1 - q2q2 + q3q3;
+//  wx = 2.0f*bx*(0.5f - q2q2 - q3q3) + 2.0f*bz*(q1q3 - q0q2);
+//  wy = 2.0f*bx*(q1q2 - q0q3) + 2.0f*bz*(q0q1 + q2q3);
+//  wz = 2.0f*bx*(q0q2 + q1q3) + 2.0f*bz*(0.5f - q1q1 - q2q2);  
 
-  // error is sum of cross product between reference direction of fields and direction measured by sensors
-  ex = (ay*vz - az*vy) + (my*wz - mz*wy);
-  ey = (az*vx - ax*vz) + (mz*wx - mx*wz);
-  ez = (ax*vy - ay*vx) + (mx*wy - my*wx);
+//  // error is sum of cross product between reference direction of fields and direction measured by sensors
+//  ex = (ay*vz - az*vy) + (my*wz - mz*wy);
+//  ey = (az*vx - ax*vz) + (mz*wx - mx*wz);
+//  ez = (ax*vy - ay*vx) + (mx*wy - my*wx);
 
-  if(ex != 0.0f && ey != 0.0f && ez != 0.0f)
-  {
-      exInt = exInt + ex * Ki * halfT;
-      eyInt = eyInt + ey * Ki * halfT;
-      ezInt = ezInt + ez * Ki * halfT;
-      // PI
-      gx = gx + Kp*ex + exInt;
-      gy = gy + Kp*ey + eyInt;
-      gz = gz + Kp*ez + ezInt;
-  }
+//  if(ex != 0.0f && ey != 0.0f && ez != 0.0f)
+//  {
+//      exInt = exInt + ex * Ki * halfT;
+//      eyInt = eyInt + ey * Ki * halfT;
+//      ezInt = ezInt + ez * Ki * halfT;
+//      // PI
+//      gx = gx + Kp*ex + exInt;
+//      gy = gy + Kp*ey + eyInt;
+//      gz = gz + Kp*ez + ezInt;
+//  }
   // 
   tempq0 = q0 + (-q1*gx - q2*gy - q3*gz)*halfT;
   tempq1 = q1 + (q0*gx + q2*gz - q3*gy)*halfT;
@@ -284,9 +284,6 @@ void imu_AHRS_update(void)
   q1 = tempq1 * norm;
   q2 = tempq2 * norm;
   q3 = tempq3 * norm;
-	GimbalData.Yawspeed = gz;
-	GimbalData.Pitchspeed = gy;
-
 }
 
 void InfantryYawUpdate(void){

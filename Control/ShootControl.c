@@ -183,7 +183,7 @@ void Switchshoot (void)
 	}
 	if(RC_Ctl.rc.s1 == 2)
 	{
-		ShootFrequncy = 40;
+		ShootFrequncy = 13;
 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
 		Turn_on_Fric(FrictionSpd);
 		Friction_ok++;

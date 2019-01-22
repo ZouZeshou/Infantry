@@ -155,8 +155,9 @@ int main(void)
 	ShootInit();
 	GimbalInit();
 	PWMInit();
+	
+	MPU6500_Init();
 	xdelay_ms(6000);
-//	MPU6500_Init();
 	USART3_Enable();
 	USART2_Enable();
 	USART1_Enable();

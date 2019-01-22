@@ -15,6 +15,9 @@ typedef struct
 	int16_t Yawinit;
 	int16_t YawCurrent;
 	float YawTarget;
+	int YawMid;
+	int YawMax;
+	int YawMin;
 	
 	
 	int16_t PitchBacknow;
