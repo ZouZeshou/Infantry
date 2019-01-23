@@ -33,7 +33,7 @@ void GimbalInit (void)
 	PitchOutter.errILim = 0;
 	PitchOutter.OutMAX = 400;
 	
-	PitchInner.kp = 50;//20
+	PitchInner.kp = 70;//20
 	PitchInner.ki = 0;
 	PitchInner.kd = 0;
 	PitchInner.errILim = 3000;
@@ -67,7 +67,7 @@ void GimbalCalibration(void)
 
 		GimbalData.YawMax = 6750;
 		GimbalData.YawMid = 5000;
-		GimbalData.YawMin = 4750;
+		GimbalData.YawMin = 4550;
 
 	GimbalData.PitchTarget = GimbalData.PitchMid;
 	GimbalData.YawTarget = GimbalData.YawMid;

@@ -63,7 +63,7 @@ void StartTask02(void const * argument)
 	  YawPID(GimbalData.YawTarget);	
 //		Plot_in_UpperMonitor();//Gimbal
 	  
-		ChooseStirMotorMode();
+//		ChooseStirMotorMode();
 	  Switchshoot();
 	  StirPID (StirMotorData.TargetPosition,StirMotorData.BackSpeed,StirMotorData.BackPositionNew);
 		//ShootControl

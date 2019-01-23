@@ -4,14 +4,14 @@
 #include "DBUS.h"
 #include "STMGood.h"
 
-#define STIRADDITION 32764 //8191*36/9
+#define STIRADDITION 29487.6 //8191*36/10
 int FrictionSpd = 1250;
 /***********StirMotorMode********************/
 #define DISCRETE 0// shot  bullet one by one
 #define CONTINUE 1//continuous shot
 int StirMotorMode;
 /********************************************/
-int16_t ShootFrequncy = 13;//1000/5/15
+int16_t ShootFrequncy = 20;//1000/5/10
 
 PID_AbsoluteType StirMotorOutterPID,StirMotorInnerPID;
 StirMotor StirMotorData;
@@ -173,30 +173,35 @@ void Switchshoot (void)
 	{
 		case 1:
 			FrictionSpd = 1350;
+			Turn_on_Fric(FrictionSpd);
 			break;
 		case 2:
-			FrictionSpd = 1250;
+			FrictionSpd = 1270;
+			Turn_on_Fric(FrictionSpd);
 			break;
 		case 3:
-			FrictionSpd = 1300;
+			FrictionSpd = 1220;
+			Turn_on_Fric(FrictionSpd);
+			break;
+		default:
+			Turn_off_Fric();
 			break;
 	}
 	if(RC_Ctl.rc.s1 == 2)
 	{
-		ShootFrequncy = 13;
+		ShootFrequncy = 12;
 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
-		Turn_on_Fric(FrictionSpd);
-		Friction_ok++;
-		if(Friction_ok>=50)
-		{
-			StirMotorStart();
-		}
+		StirMotorStart();
+	}
+	else if(RC_Ctl.rc.s1 == 3)
+	{
+		ShootFrequncy = 10;
+		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
+		StirMotorStart();
 	}
 	else
 	{
 		HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
-		Turn_off_Fric();
-		Friction_ok=0;
 	}
 }
 /**
