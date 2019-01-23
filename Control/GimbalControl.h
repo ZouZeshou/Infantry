@@ -10,7 +10,7 @@ typedef struct
 	int32_t Yawposition;
 	int32_t Yawpositionold;
 	int16_t Yawspeed;
-	int16_t Yawangle;
+	float   Yawangle;
 	int16_t Yawcirclecounter;
 	int16_t Yawinit;
 	int16_t YawCurrent;
@@ -25,7 +25,7 @@ typedef struct
 	int32_t Pitchposition;
 	int32_t Pitchpositionold;
 	int16_t Pitchspeed;
-	int16_t Pitchangle;
+	float   Pitchangle;
 	int32_t Pitchcirclecounter;
 	int16_t Pitchinit;
 	int16_t PitchCurrent;

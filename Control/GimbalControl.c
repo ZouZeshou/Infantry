@@ -69,8 +69,8 @@ void GimbalCalibration(void)
 		GimbalData.YawMid = 5000;
 		GimbalData.YawMin = 4550;
 
-	GimbalData.PitchTarget = GimbalData.PitchMid;
-	GimbalData.YawTarget = GimbalData.YawMid;
+	GimbalData.PitchTarget = 0;
+	GimbalData.YawTarget = 0;
 }
 /**
  * @brief get the tagetposition from remote and  keyboard,mouse
@@ -82,12 +82,12 @@ void GetGimbalTarget(void)
 {
 	if(DBUScounter>0)
 	{
-		GimbalData.PitchTarget += (float)(((RC_Ctl.rc.ch3 - 1024)*0.0030f) + RC_Ctl.mouse.y * CLOUD_MOUSEPITCH_CONST);
+		GimbalData.PitchTarget += (float)(((RC_Ctl.rc.ch3 - 1024)*0.001f) + RC_Ctl.mouse.y * CLOUD_MOUSEPITCH_CONST);
 		if(GimbalData.PitchTarget>GimbalData.PitchMax)
 			GimbalData.PitchTarget=GimbalData.PitchMax;
 		if(GimbalData.PitchTarget<GimbalData.PitchMin)
 			GimbalData.PitchTarget=GimbalData.PitchMin;	
-		GimbalData.YawTarget -= (float)(((-RC_Ctl.rc.ch2 + 1024)*0.0045f) + RC_Ctl.mouse.x * MOVE_MOUSEROTATE_CONST);
+		GimbalData.YawTarget -= (float)(((-RC_Ctl.rc.ch2 + 1024)*0.001f) + RC_Ctl.mouse.x * MOVE_MOUSEROTATE_CONST);
 		if(GimbalData.YawTarget>GimbalData.YawMax)
 			GimbalData.YawTarget=GimbalData.YawMax;
 		if(GimbalData.YawTarget<GimbalData.YawMin)
@@ -156,7 +156,7 @@ void PitchPID (float Target)
 		PitchInner.OutMAX=V2;
 	}
 	
-	PitchOutter.errNow = (Target - GimbalData.PitchBacknow)*0.0439453125f;//处理成角度值
+	PitchOutter.errNow = (Target - GimbalData.Pitchangle);//处理成角度值
 	PID_AbsoluteMode(&PitchOutter);
 	PitchInner.errNow = PitchOutter.ctrOut -  GimbalData.Pitchspeed;//(1/65536*4000)
 	PID_AbsoluteMode(&PitchInner);
@@ -185,7 +185,7 @@ void YawPID (float Target)
 		YawInner.errILim=1000;
 		YawInner.OutMAX=V2;
 	}
-	YawOutter.errNow = -(Target - GimbalData.YawBacknow)*0.0439453125f;
+	YawOutter.errNow = (Target - GimbalData.Yawangle);
 	PID_AbsoluteMode(&YawOutter);
 	YawInner.errNow = YawOutter.ctrOut - GimbalData.Yawspeed;
 	PID_AbsoluteMode(&YawInner);
