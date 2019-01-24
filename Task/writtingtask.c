@@ -144,7 +144,8 @@ void PrintFunction(void)
 //			printf("Foinner err%f out%f\r\n",ChassisfollowInner.errNow,ChassisfollowInner.ctrOut);
 	
 /*************************************************** Gimbaldebug ***********************************************/
-		printf("yawspd %d pitspd %d angle %f\r\n",GimbalData.Yawspeed,GimbalData.Pitchspeed,GimbalData.ImuData);
+//		printf("yawspd %d pitspd %d angle %f\r\n",GimbalData.Yawspeed,GimbalData.Pitchspeed,GimbalData.ImuData);
+		printf("Yawang %f pitang %f\r\n",GimbalData.Yawangle,GimbalData.Pitchangle);
 	  printf("backpos Yaw %d Pitch %d\r\n",GimbalData.YawBacknow,GimbalData.PitchBacknow);
 //	  printf("backspeed  Yaw %d Pitch %d\r\n",GimbalData.Yawspeed,GimbalData.Pitchspeed);
 //	  printf("totalpos Yaw %d Pitch %d\r\n",GimbalData.Yawposition,GimbalData.Pitchposition);

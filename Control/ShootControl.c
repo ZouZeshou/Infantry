@@ -172,8 +172,9 @@ void Switchshoot (void)
 	switch(RC_Ctl.rc.s2)
 	{
 		case 1:
-			FrictionSpd = 1350;
-			Turn_on_Fric(FrictionSpd);
+//			FrictionSpd = 1350;
+//			Turn_on_Fric(FrictionSpd);
+			Turn_off_Fric();
 			break;
 		case 2:
 			FrictionSpd = 1270;

@@ -299,9 +299,9 @@ void InfantryYawUpdate(void){
 		inittic++;
 		if(inittic > 1500) imu_init_ok  = 1; 
 	}
-	GimbalData.Yawangle = -(float)(imunow + cnt*360.0 - imu_first);
+	GimbalData.Yawangle = (float)(imunow + cnt*360.0 - imu_first);
 	imu_roll = atan2(2*q2*q3 + 2*q0*q1, -2*q1*q1 - 2*q2*q2 + 1)* 57.3; // roll       -pi----pi
-	GimbalData.Pitchangle = -(float)(asin(-2*q1*q3 + 2*q0*q2)* 57.3);  
+	GimbalData.Pitchangle = (float)(asin(-2*q1*q3 + 2*q0*q2)* 57.3);  
 }
 
 void PID_Temp_Init(void){

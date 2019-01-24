@@ -69,6 +69,14 @@ void GimbalCalibration(void)
 		GimbalData.YawMid = 5000;
 		GimbalData.YawMin = 4550;
 
+		GimbalData.PitchMaxangle = 10;
+		GimbalData.PitchMidangle = -10;
+		GimbalData.PitchMinangle = -65;
+
+		GimbalData.YawMaxangle = 90;
+		GimbalData.YawMidangle = 45;
+		GimbalData.YawMinangle = 0;
+		
 	GimbalData.PitchTarget = 0;
 	GimbalData.YawTarget = 0;
 }
@@ -82,17 +90,31 @@ void GetGimbalTarget(void)
 {
 	if(DBUScounter>0)
 	{
-		GimbalData.PitchTarget += (float)(((RC_Ctl.rc.ch3 - 1024)*0.001f) + RC_Ctl.mouse.y * CLOUD_MOUSEPITCH_CONST);
-		if(GimbalData.PitchTarget>GimbalData.PitchMax)
-			GimbalData.PitchTarget=GimbalData.PitchMax;
-		if(GimbalData.PitchTarget<GimbalData.PitchMin)
-			GimbalData.PitchTarget=GimbalData.PitchMin;	
-		GimbalData.YawTarget -= (float)(((-RC_Ctl.rc.ch2 + 1024)*0.001f) + RC_Ctl.mouse.x * MOVE_MOUSEROTATE_CONST);
-		if(GimbalData.YawTarget>GimbalData.YawMax)
-			GimbalData.YawTarget=GimbalData.YawMax;
-		if(GimbalData.YawTarget<GimbalData.YawMin)
-			GimbalData.YawTarget=GimbalData.YawMin;	
-	}
+		GimbalData.PitchTarget += (float)(((RC_Ctl.rc.ch3 - 1024)*0.0002f) + RC_Ctl.mouse.y * CLOUD_MOUSEPITCH_CONST);
+//		if(GimbalData.PitchBacknow <= GimbalData.PitchMax && GimbalData.PitchBacknow >= GimbalData.PitchMin )
+//		{
+			if(GimbalData.PitchTarget>GimbalData.PitchMaxangle)
+				GimbalData.PitchTarget=GimbalData.PitchMaxangle;
+			if(GimbalData.PitchTarget<GimbalData.PitchMinangle)
+				GimbalData.PitchTarget=GimbalData.PitchMinangle;
+//		}
+//		else
+//		{
+//			GimbalData.PitchTarget = GimbalData.Pitchangle;
+//		}
+		GimbalData.YawTarget += (float)(((-RC_Ctl.rc.ch2 + 1024)*0.0002f) + RC_Ctl.mouse.x * MOVE_MOUSEROTATE_CONST);
+//		if(GimbalData.YawBacknow <= GimbalData.YawMax && GimbalData.YawBacknow >= GimbalData.YawMin)
+//		{
+			if(GimbalData.YawTarget>GimbalData.YawMaxangle)
+				GimbalData.YawTarget=GimbalData.YawMaxangle;
+			if(GimbalData.YawTarget<GimbalData.YawMinangle)
+				GimbalData.YawTarget=GimbalData.YawMinangle;
+			}
+//		else
+//		{
+//			GimbalData.YawTarget = GimbalData.Yawangle;
+//		}
+//	}
 }
 
 /**
@@ -126,7 +148,7 @@ void DealGimbalPosition (void)
 		if(GimbalData.PitchBacknow-GimbalData.PitchBackold<-5000)
 			GimbalData.Pitchcirclecounter++;
 	}
-	GimbalData.PitchBackold=GimbalData.PitchBacknow;
+	GimbalData.PitchBackold = GimbalData.PitchBacknow;
 	GimbalData.Pitchinit=1;
 	
 //	GimbalData.Pitchposition=GimbalData.PitchBacknow + GimbalData.Pitchcirclecounter*8192;

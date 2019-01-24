@@ -18,6 +18,9 @@ typedef struct
 	int YawMid;
 	int YawMax;
 	int YawMin;
+	int YawMidangle;
+	int YawMaxangle;
+	int YawMinangle;
 	
 	
 	int16_t PitchBacknow;
@@ -33,6 +36,9 @@ typedef struct
 	int PitchMid;
 	int PitchMax;
 	int PitchMin;
+	int PitchMidangle;
+	int PitchMaxangle;
+	int PitchMinangle;
 	
 	float ImuData;
 }GimbalMotor;
