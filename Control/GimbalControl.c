@@ -88,33 +88,31 @@ void GimbalCalibration(void)
  */
 void GetGimbalTarget(void)
 {
+	static int16_t YawTargetEncoder = 0,PitchTargetEncoder = 0;
 	if(DBUScounter>0)
 	{
 		GimbalData.PitchTarget += (float)(((RC_Ctl.rc.ch3 - 1024)*0.0002f) + RC_Ctl.mouse.y * CLOUD_MOUSEPITCH_CONST);
-//		if(GimbalData.PitchBacknow <= GimbalData.PitchMax && GimbalData.PitchBacknow >= GimbalData.PitchMin )
-//		{
-			if(GimbalData.PitchTarget>GimbalData.PitchMaxangle)
-				GimbalData.PitchTarget=GimbalData.PitchMaxangle;
-			if(GimbalData.PitchTarget<GimbalData.PitchMinangle)
-				GimbalData.PitchTarget=GimbalData.PitchMinangle;
-//		}
-//		else
-//		{
-//			GimbalData.PitchTarget = GimbalData.Pitchangle;
-//		}
+		PitchTargetEncoder = (int16_t)(GimbalData.PitchBacknow + (GimbalData.PitchTarget - GimbalData.Pitchangle)/0.0439506776f);
+		if(PitchTargetEncoder > GimbalData.PitchMax)
+		{
+			GimbalData.PitchTarget = GimbalData.PitchTarget - (PitchTargetEncoder - GimbalData.PitchMax) * 0.0439506776f;
+		}
+		else if(PitchTargetEncoder < GimbalData.PitchMin)
+		{
+			GimbalData.PitchTarget = GimbalData.PitchTarget - (PitchTargetEncoder - GimbalData.PitchMin) * 0.0439506776f;
+		}
+		
 		GimbalData.YawTarget += (float)(((-RC_Ctl.rc.ch2 + 1024)*0.0002f) + RC_Ctl.mouse.x * MOVE_MOUSEROTATE_CONST);
-//		if(GimbalData.YawBacknow <= GimbalData.YawMax && GimbalData.YawBacknow >= GimbalData.YawMin)
-//		{
-			if(GimbalData.YawTarget>GimbalData.YawMaxangle)
-				GimbalData.YawTarget=GimbalData.YawMaxangle;
-			if(GimbalData.YawTarget<GimbalData.YawMinangle)
-				GimbalData.YawTarget=GimbalData.YawMinangle;
-			}
-//		else
-//		{
-//			GimbalData.YawTarget = GimbalData.Yawangle;
-//		}
-//	}
+		YawTargetEncoder = (int16_t)(GimbalData.YawBacknow - (GimbalData.YawTarget - GimbalData.Yawangle)/0.0439506776f);
+		if(YawTargetEncoder > GimbalData.YawMax)
+		{
+			GimbalData.YawTarget = GimbalData.YawTarget + (YawTargetEncoder - GimbalData.YawMax) * 0.0439506776f;
+		}
+		else if(YawTargetEncoder < GimbalData.YawMin)
+		{
+			GimbalData.YawTarget = GimbalData.YawTarget + (YawTargetEncoder - GimbalData.YawMin) * 0.0439506776f;
+		}
+	}
 }
 
 /**

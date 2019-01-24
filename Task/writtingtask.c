@@ -144,17 +144,17 @@ void PrintFunction(void)
 //			printf("Foinner err%f out%f\r\n",ChassisfollowInner.errNow,ChassisfollowInner.ctrOut);
 	
 /*************************************************** Gimbaldebug ***********************************************/
-//		printf("yawspd %d pitspd %d angle %f\r\n",GimbalData.Yawspeed,GimbalData.Pitchspeed,GimbalData.ImuData);
+		printf("yawspd %d pitspd %d\r\n",GimbalData.Yawspeed,GimbalData.Pitchspeed);
 		printf("Yawang %f pitang %f\r\n",GimbalData.Yawangle,GimbalData.Pitchangle);
-	  printf("backpos Yaw %d Pitch %d\r\n",GimbalData.YawBacknow,GimbalData.PitchBacknow);
+//	  printf("backpos Yaw %d Pitch %d\r\n",GimbalData.YawBacknow,GimbalData.PitchBacknow);
 //	  printf("backspeed  Yaw %d Pitch %d\r\n",GimbalData.Yawspeed,GimbalData.Pitchspeed);
 //	  printf("totalpos Yaw %d Pitch %d\r\n",GimbalData.Yawposition,GimbalData.Pitchposition);
 //	  printf("gyro x %d y %d z %d\r\n",imu_data.gx,imu_data.gy,imu_data.gz);
 	  printf("Yawtaget %f Pittaget %f\r\n",GimbalData.YawTarget,GimbalData.PitchTarget);
-			printf("error yaw%f pitch%f\r\n",YawOutter.errNow,PitchOutter.errNow);
-			printf("Yaw outter %f inner %f\r\n",YawOutter.ctrOut,YawInner.ctrOut);
+//			printf("error yaw%f pitch%f\r\n",YawOutter.errNow,PitchOutter.errNow);
+//			printf("Yaw outter %f inner %f\r\n",YawOutter.ctrOut,YawInner.ctrOut);
 ////			printf("Yawcur %d\r\n",GimbalData.YawCurrent);
-			printf("Pitch outter %f inner %f\r\n",PitchOutter.ctrOut,PitchInner.ctrOut);
+//			printf("Pitch outter %f inner %f\r\n",PitchOutter.ctrOut,PitchInner.ctrOut);
 //			printf("Gyro1 gy%d gz%d ang%f\r\n",Gyroscope1.gy,Gyroscope1.gz,Gyroscope1.angle);
 //			printf("Gyro1State %d\r\n",Gyro1State);
 //			printf("Gyro2 gy%d gz%d ang%f\r\n",Gyroscope2.gy,Gyroscope2.gz,Gyroscope2.angle);
