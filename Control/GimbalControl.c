@@ -65,7 +65,7 @@ void GimbalCalibration(void)
 		GimbalData.PitchMid = 7045;
 		GimbalData.PitchMin = 5800;
 
-		GimbalData.YawMax = 6750;
+		GimbalData.YawMax = 7000;
 		GimbalData.YawMid = 5000;
 		GimbalData.YawMin = 4550;
 
