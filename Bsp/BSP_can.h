@@ -18,7 +18,20 @@ typedef struct{
 	float angle;
 	
 }ToeGyro;
+typedef struct{
+	int Wheel_1;
+	int Wheel_2;
+	int Wheel_3;
+	int Wheel_4;
+	int Pit;
+	int Yaw;
+	int Stir;
+	int Gyro_1;
+	int Gyro_2;
+	int Gyro_3;
+}FPS;
 
+extern FPS fps;
 extern ToeGyro Gyroscope1;
 extern ToeGyro Gyroscope2;
 

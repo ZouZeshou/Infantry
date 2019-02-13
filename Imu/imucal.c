@@ -5,6 +5,7 @@
 #include "pid.h"
 #include "tim.h"
 #include "GimbalControl.h"
+#include "BSP_can.h"
 PID_AbsoluteType imu_temp;
 extern GimbalMotor GimbalData;
 float q0 = 1.0,q1 = 0.0,q2 = 0.0,q3 = 0.0;
@@ -229,7 +230,13 @@ void imu_AHRS_update(void)
   mx = 0;//imu_data_forcal.mx;
   my = 0;//imu_data_forcal.my;
   mz = 0;//imu_data_forcal.mz;
-
+	
+	if(fabs(gx) <= 10)
+		gx = 0;
+	if(fabs(gy) <= 10)
+		gy = 0;
+	if(fabs(gy) <= 10)
+		gy = 0;
 
   //Fast inverse square-root
   norm = invSqrt(ax*ax + ay*ay + az*az);
@@ -268,9 +275,10 @@ void imu_AHRS_update(void)
       eyInt = eyInt + ey * Ki * halfT;
       ezInt = ezInt + ez * Ki * halfT;
       // PI
-      gx = gx + Kp*ex + exInt;
-      gy = gy + Kp*ey + eyInt;
-      gz = gz + Kp*ez + ezInt;
+//      gx = gx + Kp*ex + exInt;
+//      gy = gy + Kp*ey + eyInt;
+//      gz = gz + Kp*ez + ezInt;
+		
   }
   // 
   tempq0 = q0 + (-q1*gx - q2*gy - q3*gz)*halfT;
@@ -333,36 +341,34 @@ void imu_cal_update(void){
  * @return state of Gyroscope
  * @attention  None
  */
-int JudgeGyro(int16_t gy,int16_t gz,float angle)
+int JudgeGyro(int16_t gy,int16_t gz,float angle,int RT_fps)
 {
 	static int anglecounter = 0;
 	static int anglecounter2 = 0;
 	float angleold , anglechange;
+	int RT_fpsOld ,RT_fpsChange;
 	anglechange = angle - angleold;
 	angleold = angle;
-	if(angle == 0)
+	RT_fpsChange = RT_fps - RT_fpsOld;
+	RT_fpsOld = RT_fps;
+	if(RT_fpsChange == 0)
 	{
-		if(anglecounter++ == 20)
-		{
-			anglecounter = 0;
-			return GYROOFFLINE;
-		}
+		return GYROOFFLINE;
+	}
+	if(gy >= 20)
+	{
+		return GYROABNORMAL;
+	}
+	else if(gz >= 20)
+	{
+		return GYROABNORMAL;
+	}
+	else if(anglechange >= 0.05)
+	{
+		return GYROABNORMAL;
 	}
 	else
 	{
-		anglecounter = 0;
+		return GYRONORMAL;
 	}
-	if(abs(gz) <= 20 && fabs(anglechange) >= 0.001)
-	{
-		if(anglecounter2++ == 100)
-		{
-			anglecounter2 = 0;
-			return GYROABNORMAL;
-		}
-	}
-	else
-	{
-		anglecounter2 = 0;
-	}
-	return GYRONORMAL;
 }

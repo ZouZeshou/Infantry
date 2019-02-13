@@ -24,6 +24,37 @@ PID_AbsoluteType Chassiswheelpid[4];
 PID_AbsoluteType ChassisfollowInner,ChassisfollowOutter;
 float ChassisAngle2;
 /**
+ * @brief initialize the parameter of chassis
+ * @param None
+ * @return None
+ * @attention  None
+ */
+void ChassisInit(void)
+{
+	int i;
+	
+	ChassisfollowOutter.kp=100;
+	ChassisfollowOutter.ki=0;
+	ChassisfollowOutter.kd=0;
+	ChassisfollowOutter.OutMAX=5000;
+	
+	ChassisfollowInner.kp=10;
+	ChassisfollowInner.ki=0;
+	ChassisfollowInner.kd=0;
+	ChassisfollowInner.OutMAX=5000;
+
+	for(i = 0;i < 4;i++)
+	{
+		Chassiswheelpid[i].kp=4;
+		Chassiswheelpid[i].ki=0.1;
+		Chassiswheelpid[i].kd=0;
+	
+		Chassiswheelpid[i].errILim=3000;
+		Chassiswheelpid[i].OutMAX=10000;	
+	}
+
+}
+/**
  * @brief Choose Chassis Mode
  * @param None
  * @return None
@@ -66,37 +97,7 @@ void DealRemotedata(void)
 		}
 	}
 }
-/**
- * @brief initialize the parameter of chassis
- * @param None
- * @return None
- * @attention  None
- */
-void ChassisInit(void)
-{
-	int i;
-	
-	ChassisfollowOutter.kp=100;
-	ChassisfollowOutter.ki=0;
-	ChassisfollowOutter.kd=0;
-	ChassisfollowOutter.OutMAX=5000;
-	
-	ChassisfollowInner.kp=10;
-	ChassisfollowInner.ki=0;
-	ChassisfollowInner.kd=0;
-	ChassisfollowInner.OutMAX=5000;
 
-	for(i = 0;i < 4;i++)
-	{
-		Chassiswheelpid[i].kp=4;
-		Chassiswheelpid[i].ki=0.1;
-		Chassiswheelpid[i].kd=0;
-	
-		Chassiswheelpid[i].errILim=3000;
-		Chassiswheelpid[i].OutMAX=10000;	
-	}
-
-}
 
 /**
  * @brief deal with the data for chassis follwer

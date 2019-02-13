@@ -82,14 +82,14 @@ void StartTask02(void const * argument)
  */
 void StartTask03(void const * argument)
 {
-	//portTickType Current;
 	for(;;)
   {
-	  
-	 //Current = xTaskGetTickCount();  
-		Can1_SendMsg(0x200,Chassisdata.Current[0],Chassisdata.Current[1],Chassisdata.Current[2],Chassisdata.Current[3]);
-		Can1_SendMsg(0x1FF,GimbalData.YawCurrent,GimbalData.PitchCurrent,0,0);
-		Can2_SendMsg(0x1FF,0,0,StirMotorData.Current,0);
+		if(GYRO_OK)
+		{
+			Can1_SendMsg(0x200,Chassisdata.Current[0],Chassisdata.Current[1],Chassisdata.Current[2],Chassisdata.Current[3]);
+			Can1_SendMsg(0x1FF,GimbalData.YawCurrent,GimbalData.PitchCurrent,0,0);
+			Can2_SendMsg(0x1FF,0,0,StirMotorData.Current,0);
+		}
      osDelay(5);
   }
 

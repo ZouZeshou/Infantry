@@ -9,6 +9,7 @@ static wl4data w4d;
 static wl2data w2d;
 ToeGyro Gyroscope1;
 ToeGyro Gyroscope2;
+FPS fps;
 
 /**
  * @brief Enable Can1 and Can2
@@ -43,17 +44,35 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 	{
 		HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0,&Can1Header,RxData1 );
 		if(Can1Header.StdId==0x201)
+		{
 			Chassisdata.BackSpeed[0]= RxData1[2]<<8|RxData1[3];
+			fps.Wheel_1++;
+		}
 		if(Can1Header.StdId==0x202)
+		{
 			Chassisdata.BackSpeed[1]= RxData1[2]<<8|RxData1[3];	
+			fps.Wheel_2++;
+		}
 		if(Can1Header.StdId==0x203)
+		{
 			Chassisdata.BackSpeed[2]= RxData1[2]<<8|RxData1[3];	
+			fps.Wheel_3++;
+		}
 		if(Can1Header.StdId==0x204)
-			Chassisdata.BackSpeed[3]= RxData1[2]<<8|RxData1[3];	
+		{
+			Chassisdata.BackSpeed[3]= RxData1[2]<<8|RxData1[3];
+			fps.Wheel_4++;
+		}			
 		if(Can1Header.StdId==0x205)
+		{
 			GimbalData.YawBacknow = RxData1[0]<<8|RxData1[1];	
+			fps.Yaw++;
+		}
 		if(Can1Header.StdId==0x206)
-			GimbalData.PitchBacknow = RxData1[0]<<8|RxData1[1];	
+		{
+			GimbalData.PitchBacknow = RxData1[0]<<8|RxData1[1];
+			fps.Pit++;
+		}			
 		if(Can1Header.StdId==0x402)
 		{
 			w2d.c[0] = RxData1[0];
@@ -67,6 +86,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			w4d.c[2] = RxData1[6];
 			w4d.c[3] = RxData1[7];
 			Gyroscope2.angle = w4d.f;
+			fps.Gyro_2++;
 		}
 	}
 	
@@ -78,6 +98,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			StirMotorData.BackPositionNew = RxData2[0]<<8|RxData2[1];
 			StirMotorData.BackSpeed = RxData2[2]<<8|RxData2[3];
 			DealStirMotorPosition ();
+			fps.Stir++;
 		}
 		if(Can2Header.StdId==0x401)
 		{
@@ -94,6 +115,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			Gyroscope1.angle = w4d.f;
 			GimbalData.Pitchspeed = (int16_t)(-(Gyroscope1.gy )*0.06103515625f);//4000/65535
 			GimbalData.Yawspeed = (int16_t)(Gyroscope1.gz*0.06103515625f);
+			fps.Gyro_1++;
 		}
 	}
 	
