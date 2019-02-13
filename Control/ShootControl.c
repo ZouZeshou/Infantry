@@ -175,17 +175,27 @@ void Switchshoot (void)
 //			FrictionSpd = 1350;
 //			Turn_on_Fric(FrictionSpd);
 			Turn_off_Fric();
+			Friction_ok = 0;
 			break;
 		case 2:
-			FrictionSpd = 1270;
+
 			Turn_on_Fric(FrictionSpd);
+			Friction_ok ++;
+			if(Friction_ok >= 200)
+			{
+				FrictionSpd = 1350;	
+			}
+			else
+				FrictionSpd = 1270;
 			break;
 		case 3:
 			FrictionSpd = 1220;
 			Turn_on_Fric(FrictionSpd);
+			Friction_ok = 0;
 			break;
 		default:
 			Turn_off_Fric();
+			Friction_ok = 0;
 			break;
 	}
 	if(RC_Ctl.rc.s1 == 2)
