@@ -17,7 +17,7 @@ typedef struct{
 	int16_t gz;
 	float angle;
 	
-}ToeGyro;
+}GyroData;
 typedef struct{
 	int Wheel_1;
 	int Wheel_2;
@@ -32,8 +32,8 @@ typedef struct{
 }FPS;
 
 extern FPS fps;
-extern ToeGyro Gyroscope1;
-extern ToeGyro Gyroscope2;
+extern GyroData Gyroscope1;
+extern GyroData Gyroscope2;
 
 void CAN_Enable(void);
 void CANFilterStart(CAN_HandleTypeDef *hcan);

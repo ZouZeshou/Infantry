@@ -67,6 +67,8 @@ void StartTask02(void const * argument)
 	  Switchshoot();
 	  StirPID (StirMotorData.TargetPosition,StirMotorData.BackSpeed,StirMotorData.BackPositionNew);
 		//ShootControl
+		
+		if(JudgeGyro(&Gyroscope1,fps.Gyro_1) == GYROOFFLINE)
 	  
 	  taskEXIT_CRITICAL();
 	

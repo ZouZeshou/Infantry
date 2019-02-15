@@ -7,8 +7,8 @@
 
 static wl4data w4d;
 static wl2data w2d;
-ToeGyro Gyroscope1;
-ToeGyro Gyroscope2;
+GyroData Gyroscope1;
+GyroData Gyroscope2;
 FPS fps;
 
 /**

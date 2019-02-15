@@ -5,7 +5,7 @@
 #include "MPU6500.h"
 #include <math.h>
 #include "ChassisControl.h"
-
+#include "BSP_can.h"
 #define IMU_TARGET_TEMP 50
 #define GYROOFFLINE 1
 #define GYROABNORMAL 2
@@ -17,7 +17,7 @@ void InfantryYawUpdate(void);
 void PID_Temp_Init(void);
 void Temp_keep(void);
 void imu_cal_update(void);
-int JudgeGyro(int16_t gy,int16_t gz,float angle,int RT_fps);
+int JudgeGyro(GyroData * Gyro,int RT_fps);
 
 extern int imu_init_ok;
 extern float q0,q1,q2,q3;

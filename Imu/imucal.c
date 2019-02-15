@@ -337,29 +337,29 @@ void imu_cal_update(void){
 /**************zzs_add***************/
 /**
  * @brief Judge the state of Gyroscope
- * @param gy,gz,angle
+ * @param gy,gz,angle,fps
  * @return state of Gyroscope
  * @attention  None
  */
-int JudgeGyro(int16_t gy,int16_t gz,float angle,int RT_fps)
+int JudgeGyro(GyroData * Gyro,int RT_fps)
 {
 	static int anglecounter = 0;
 	static int anglecounter2 = 0;
 	float angleold , anglechange;
 	int RT_fpsOld ,RT_fpsChange;
-	anglechange = angle - angleold;
-	angleold = angle;
+	anglechange = Gyro->angle - angleold;
+	angleold = Gyro->angle;
 	RT_fpsChange = RT_fps - RT_fpsOld;
 	RT_fpsOld = RT_fps;
 	if(RT_fpsChange == 0)
 	{
 		return GYROOFFLINE;
 	}
-	if(gy >= 20)
+	if(Gyro->gy >= 20)
 	{
 		return GYROABNORMAL;
 	}
-	else if(gz >= 20)
+	else if(Gyro->gz >= 20)
 	{
 		return GYROABNORMAL;
 	}
