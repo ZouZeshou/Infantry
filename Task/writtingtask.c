@@ -27,8 +27,9 @@
 #include "DBUS.h"
 #include "Keyboard.h"
 #include "STMGood.h"
-int initmark=0 ;
-
+int initmark = 0 ;
+int GYRO_OK = 0;
+int Stop_GyroJudge = 0;
 extern uint8_t Remotebuffer[18];
 
 
@@ -67,9 +68,7 @@ void StartTask02(void const * argument)
 	  Switchshoot();
 	  StirPID (StirMotorData.TargetPosition,StirMotorData.BackSpeed,StirMotorData.BackPositionNew);
 		//ShootControl
-		
-		if(JudgeGyro(&Gyroscope1,fps.Gyro_1) == GYROOFFLINE)
-	  
+  
 	  taskEXIT_CRITICAL();
 	
     osDelay(5);
@@ -84,6 +83,7 @@ void StartTask02(void const * argument)
  */
 void StartTask03(void const * argument)
 {
+	static int Task03_Count1;
 	for(;;)
   {
 		if(GYRO_OK)
@@ -91,7 +91,12 @@ void StartTask03(void const * argument)
 			Can1_SendMsg(0x200,Chassisdata.Current[0],Chassisdata.Current[1],Chassisdata.Current[2],Chassisdata.Current[3]);
 			Can1_SendMsg(0x1FF,GimbalData.YawCurrent,GimbalData.PitchCurrent,0,0);
 			Can2_SendMsg(0x1FF,0,0,StirMotorData.Current,0);
+			Stop_GyroJudge = 1;
 		}
+		if(Task03_Count1++ >= 100 && GYRO_OK == 0)
+		{
+			//Restart
+		}			
      osDelay(5);
   }
 
@@ -107,18 +112,82 @@ void StartTask04(void const * argument)
 	
 	for(;;)
   {
-	  static int wait;
-	  wait++;
-	  if(wait>100)
-	  {
-		wait=0;
 		HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_1);		
 		PrintFunction();
-	  }
-	  imu_cal_update();
-		osDelay(2);
+		osDelay(150);
   }
 
+}
+/**
+ * @brief Update the data of onboard Gyroscope
+ * @param None
+ * @return None
+ * @attention None
+ */
+void StartTask05(void const * argument)
+{
+	for(;;)
+  {
+		imu_cal_update();
+		osDelay(2);
+  }
+}
+/**
+ * @brief Judge the Gyro online or offline
+ * @param None
+ * @return None
+ * @attention None
+ */
+void StartTask06(void const * argument)
+{
+	static int counter1,counter2;
+	for(;;)
+  {
+		if(Stop_GyroJudge == 0)
+		{
+			if(JudgeGyro(&Gyroscope1,fps.Gyro_1) == GYROOFFLINE)
+			{
+				if(counter1++ >=2)
+				{
+					if(JudgeGyro(&Gyroscope1,fps.Gyro_1) == GYROOFFLINE)
+						GYRO_OK = 0;
+				}		
+			}
+			else
+			{
+				counter1 = 0;
+				GYRO_OK = 1;
+			}
+			if(JudgeGyro(&Gyroscope1,fps.Gyro_1) == GYROABNORMAL)
+			{
+				if(counter2++ >=2)
+				{
+					if(JudgeGyro(&Gyroscope1,fps.Gyro_1) == GYROABNORMAL)
+						GYRO_OK = 0;
+				}		
+			}
+			else
+			{
+				counter2 = 0;
+				GYRO_OK = 1;
+			}
+		}
+		
+		osDelay(5);
+  }
+}
+/**
+ * @brief TASK07
+ * @param None
+ * @return None
+ * @attention None
+ */
+void StartTask07(void const * argument)
+{
+	for(;;)
+  {
+		osDelay(2);
+  }
 }
 /**
  * @brief 调试时需用到的打印数据函数

@@ -83,6 +83,9 @@ osThreadId myTask02Handle;
 osThreadId myTask03Handle;
 osThreadId myTask04Handle;
 osThreadId myTask05Handle;
+osThreadId myTask06Handle;
+osThreadId myTask07Handle;
+osThreadId myTask08Handle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -94,6 +97,9 @@ void StartTask02(void const * argument);
 void StartTask03(void const * argument);
 void StartTask04(void const * argument);
 void StartTask05(void const * argument);
+void StartTask06(void const * argument);
+void StartTask07(void const * argument);
+void StartTask08(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -137,20 +143,32 @@ void MX_FREERTOS_Init(void) {
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* definition and creation of myTask02 */
-  osThreadDef(myTask02, StartTask02, osPriorityHigh, 0, 256);
+  osThreadDef(myTask02, StartTask02, osPriorityRealtime, 0, 256);
   myTask02Handle = osThreadCreate(osThread(myTask02), NULL);
 
   /* definition and creation of myTask03 */
-  osThreadDef(myTask03, StartTask03, osPriorityAboveNormal, 0, 256);
+  osThreadDef(myTask03, StartTask03, osPriorityHigh, 0, 256);
   myTask03Handle = osThreadCreate(osThread(myTask03), NULL);
 
   /* definition and creation of myTask04 */
-  osThreadDef(myTask04, StartTask04, osPriorityNormal, 0, 256);
+  osThreadDef(myTask04, StartTask04, osPriorityAboveNormal, 0, 256);
   myTask04Handle = osThreadCreate(osThread(myTask04), NULL);
 
   /* definition and creation of myTask05 */
-  osThreadDef(myTask05, StartTask05, osPriorityBelowNormal, 0, 256);
+  osThreadDef(myTask05, StartTask05, osPriorityNormal, 0, 256);
   myTask05Handle = osThreadCreate(osThread(myTask05), NULL);
+
+  /* definition and creation of myTask06 */
+  osThreadDef(myTask06, StartTask06, osPriorityBelowNormal, 0, 128);
+  myTask06Handle = osThreadCreate(osThread(myTask06), NULL);
+
+  /* definition and creation of myTask07 */
+  osThreadDef(myTask07, StartTask07, osPriorityLow, 0, 128);
+  myTask07Handle = osThreadCreate(osThread(myTask07), NULL);
+
+  /* definition and creation of myTask08 */
+  osThreadDef(myTask08, StartTask08, osPriorityIdle, 0, 128);
+  myTask08Handle = osThreadCreate(osThread(myTask08), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -250,6 +268,60 @@ __weak void StartTask05(void const * argument)
     osDelay(1);
   }
   /* USER CODE END StartTask05 */
+}
+
+/* USER CODE BEGIN Header_StartTask06 */
+/**
+* @brief Function implementing the myTask06 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartTask06 */
+__weak void StartTask06(void const * argument)
+{
+  /* USER CODE BEGIN StartTask06 */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartTask06 */
+}
+
+/* USER CODE BEGIN Header_StartTask07 */
+/**
+* @brief Function implementing the myTask07 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartTask07 */
+__weak void StartTask07(void const * argument)
+{
+  /* USER CODE BEGIN StartTask07 */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartTask07 */
+}
+
+/* USER CODE BEGIN Header_StartTask08 */
+/**
+* @brief Function implementing the myTask08 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartTask08 */
+__weak void StartTask08(void const * argument)
+{
+  /* USER CODE BEGIN StartTask08 */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartTask08 */
 }
 
 /* Private application code --------------------------------------------------*/
